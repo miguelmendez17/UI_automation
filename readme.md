@@ -1,4 +1,16 @@
-Instructions 
+**How to run the application**
+
+```bash
+python main.py
+```
+
+**Important notes**
+
+If you want to run it in your local, maybe you want to change the following attribute in the class Automation.
+```
+self.desktop_path = <your_path>
+```
+**Instructions** 
 
 Write a program in Python that performs the following tasks by manipulating GUI elements:
 - Launch the standard Windows 10 calculator application
@@ -17,3 +29,6 @@ Write a program in Python that performs the following tasks by manipulating GUI 
     - Divide the result by 2
 - Save the .txt file to the Desktop as Results2.txt
 - Close the calculator and notepad
+
+
+**Python version: 3.8**
