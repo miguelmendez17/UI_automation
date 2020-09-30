@@ -1,6 +1,10 @@
 **How to run the application**
 
 ```bash
+pip install -r requirements.txt
+```
+Wait a few minutes until the requirements are installed, and then you can run the code:
+```bash
 python main.py
 ```
 
