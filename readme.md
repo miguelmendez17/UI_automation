@@ -1,3 +1,15 @@
+**How to run the application**
+
+```bash
+python main.py
+```
+
+**Important notes**
+
+If you want to run it in your local, maybe you want to change the following attribute in the class Automation.
+```
+self.desktop_path = <your_path>
+```
 **Instructions** 
 
 Write a program in Python that performs the following tasks by manipulating GUI elements:
