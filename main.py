@@ -6,6 +6,7 @@ import time
 
 # docs
 # https://pyautogui.readthedocs.io/en/latest/
+# https://winaero.com/useful-calculator-keyboard-shortcuts-in-windows-10/
 
 class Automation:
     def __init__(self):
@@ -38,12 +39,11 @@ class Automation:
         self.calculator_app = pyautogui.getWindowsWithTitle(self.app_titles.get('calc'))[0]
         self.notepad_app = pyautogui.getWindowsWithTitle(self.app_titles.get('notepad'))[0]
 
-        self.results1()
+        self.basic_operations()
 
-        # TODO results2
-        self.results2()
+        self.scientific_operations()
 
-    def results1(self):
+    def basic_operations(self):
 
         # log the operation first in the file
         pyautogui.write('2 + 2 = ', interval=self.pause_to_write)
@@ -51,27 +51,25 @@ class Automation:
         self.activate_window(self.calculator_app)
 
         # Add 2 + 2. We want to use this in different lines to be able to visualize what is happening while is running
-        pyautogui.press('2')
-        pyautogui.press('+')
-        pyautogui.press('2')
+        pyautogui.press('2'), pyautogui.press('+'), pyautogui.press('2')
         pyautogui.press('=')
         # this is to copy the result
         pyautogui.hotkey('ctrl', 'c')
 
         self.activate_window(self.notepad_app)
 
-        # paste the result and change the line
+        # paste the result of the addition
         pyautogui.hotkey('ctrl', 'v')
 
         # press enter to new line and write the operation in the file with the previous result
         pyautogui.press('enter')
+
         pyautogui.hotkey('ctrl', 'v')
         pyautogui.write(' * 5 = ', interval=self.pause_to_write)
 
         self.activate_window(self.calculator_app)
 
-        pyautogui.press('*')
-        pyautogui.press('5')
+        pyautogui.press('*'), pyautogui.press('5')
         # this is the '=' button
         pyautogui.press('=')
         # this is to copy the result
@@ -89,8 +87,7 @@ class Automation:
 
         self.activate_window(self.calculator_app)
 
-        pyautogui.press('-')
-        pyautogui.press(['1', '0'], interval=self.pause_each_call)
+        pyautogui.press('-'), pyautogui.press(['1', '0'], interval=self.pause_each_call)
         # this is the '=' button
         pyautogui.press('=')
         # this is to copy the result
@@ -109,8 +106,81 @@ class Automation:
         # close the notepad file
         self.notepad_app.close()
 
-    def results2(self):
-        pass
+        time.sleep(self.pause_each_call)
+
+    def scientific_operations(self):
+
+        # this is to launch the notepad application
+        Popen(self.programs_dict.get('notepad'))
+        time.sleep(self.pause_each_call)
+
+        # re-define de notepad app info
+        self.notepad_app = pyautogui.getWindowsWithTitle(self.app_titles.get('notepad'))[0]
+
+        self.activate_window(self.calculator_app)
+
+        # Clear the calculator
+        pyautogui.press('del')
+        # switch it to scientific mode
+        pyautogui.hotkey('alt', '2')
+
+        # Change the computation mode from degree (DEG) to radian (RAD)
+        pyautogui.press('f4')
+
+        # this is to get and copy the value of pi from calculator
+        pyautogui.press('p'), pyautogui.hotkey('ctrl', 'c')
+
+        self.activate_window(self.notepad_app)
+
+        # log the operation with pi that comes from the calculator.
+        pyautogui.write('cos('), pyautogui.hotkey('ctrl', 'v'), pyautogui.write(') = ')
+
+        self.activate_window(self.calculator_app)
+
+        # Select cos in Scientific mode.
+        pyautogui.press('o')
+        pyautogui.press('=')
+
+        # this is to copy the result of the cosine of pi
+        pyautogui.hotkey('ctrl', 'c')
+
+        self.activate_window(self.notepad_app)
+
+        pyautogui.hotkey('ctrl', 'v')
+        pyautogui.press('enter')
+        pyautogui.write('abs('), pyautogui.hotkey('ctrl', 'v'), pyautogui.write(') = ')
+
+        self.activate_window(self.calculator_app)
+
+        # Take the absolute value of the result
+        pyautogui.press('|'), pyautogui.press('=')
+
+        # this is to copy the result of the absolute value
+        pyautogui.hotkey('ctrl', 'c')
+
+        self.activate_window(self.notepad_app)
+        pyautogui.hotkey('ctrl', 'v'), pyautogui.press('enter')
+        pyautogui.hotkey('ctrl', 'v'), pyautogui.write(' / 2 = ')
+
+        self.activate_window(self.calculator_app)
+
+        # Divide the result by 2
+        pyautogui.press('/'), pyautogui.press('2')
+        pyautogui.press('=')
+        # this is to copy the result of the division
+        pyautogui.hotkey('ctrl', 'c')
+
+        self.activate_window(self.notepad_app)
+        pyautogui.hotkey('ctrl', 'v')
+
+        # Save the .txt file to the Desktop as Results2.txt
+        pyautogui.hotkey('ctrl', 'g')
+        pyautogui.write(self.desktop_path + 'Results2.txt', interval=self.pause_to_write)
+        pyautogui.press('enter')
+
+        # Close the calculator and notepad
+        self.calculator_app.close()
+        self.notepad_app.close()
 
     def activate_window(self, window_to_activate):
         """
